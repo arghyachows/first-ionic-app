@@ -20,5 +20,5 @@ RUN npm run build
 FROM nginx:latest as dev-stage
 
 COPY --from=builder /app/www /usr/share/nginx/html
-EXPOSE 80
+EXPOSE 8100
 CMD [ "nginx", "-g" , "daemon off;"]
