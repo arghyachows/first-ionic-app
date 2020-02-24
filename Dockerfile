@@ -1,7 +1,7 @@
-FROM node:12
+FROM node:12 as builder
 
 # Create app directory
-WORKDIR /usr/src/app
+WORKDIR /app
 
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
@@ -15,5 +15,10 @@ RUN npm install
 # Bundle app source
 COPY . .
 
-EXPOSE 8080
-CMD [ "npm", "ci" ]
+RUN npm run build
+
+FROM nginx:latest as dev-stage
+
+COPY --from=builder /app/www /usr/nginx/html
+EXPOSE 80
+CMD [ "nginx", "-g" , "daemon off;"]
