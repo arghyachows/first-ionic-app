@@ -1,24 +1,15 @@
-FROM node:12 as builder
+FROM node:12
 
-# Create app directory
-WORKDIR /app
+COPY . /www/app
 
-# Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
-COPY package*.json ./
+RUN npm install -g cordova ionic
+RUN npm install -g bower
+RUN npm install -g gulp
 
+WORKDIR /www/app
 RUN npm install
-# If you are building your code for production
-# RUN npm ci --only=production
 
-# Bundle app source
-COPY . .
-
-RUN npm run build
-
-FROM nginx:latest as dev-stage
-
-COPY --from=builder /app/www /usr/share/nginx/html
 EXPOSE 8100
-CMD [ "nginx", "-g" , "daemon off;"]
+
+ENTRYPOINT ["ionic"]
+CMD ["serve", "8100", "--address", "0.0.0.0"]
