@@ -8,7 +8,8 @@
 
 <ion-content>
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content></ion-refresher-content>
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles"
+      refreshingText="Refreshing..."></ion-refresher-content>
   </ion-refresher>
   <ion-card *ngFor="let course of courses" (click)="presentActionSheet(course)">
     <ion-card-header>
