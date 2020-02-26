@@ -12,8 +12,18 @@ import { ActionSheetController } from '@ionic/angular';
 export class Tab1Page {
 
   courseList: Observable<Course[]>;
+  courses: Course[];
   constructor(private courseService: CoursesService, private actionSheetController: ActionSheetController) {
-    this.courseList = courseService.getAllCourses();
+    this.courseService.getAllCourses().subscribe(res => {
+      this.courses = res;
+    });
+  }
+
+  doRefresh(event) {
+    this.courseService.getAllCourses().subscribe(res => {
+      this.courses = res;
+      event.target.complete();
+    });
   }
 
   async presentActionSheet(course: Course) {
